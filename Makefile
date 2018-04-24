@@ -6,13 +6,13 @@
 
 CXX = g++
 CXXFLAGS =
-CPPFLAGS = -Wall -I /scratch/perkins/include -Wno-write-strings -g
+CPPFLAGS = -Wall -I /scratch/perkins/include -Wno-write-strings -g -std=c++11
 
 PROJECTNAME = "CS3377-Program6"
 
 EXECFILE = program6
 
-OBJS = cdkexample.o
+OBJS = prog6.o
 
 LDFLAGS = -L/scratch/perkins/lib
 LDLIBS = -lcurses -lcdk
