@@ -90,6 +90,8 @@ int main()
 //  BinaryFileRecord strLength stringBuffer
 	
 	ifstream infile("cs3377.bin", ios::binary | ios::in);
+	if(!infile)
+		exit(-1);
 	BinaryFileHeader* header = new BinaryFileHeader[1];	
 	infile.read((char*)header, sizeof(BinaryFileHeader));
 	stringstream sstream;
@@ -100,10 +102,24 @@ int main()
 	setCDKMatrixCell(myMatrix, 1, 1, magNum.c_str());
 	setCDKMatrixCell(myMatrix, 1, 2, ver.c_str());
 	setCDKMatrixCell(myMatrix, 1, 3, numRec.c_str());
+
+	bool cont = !infile.eof();
+	BinaryFileRecord* record = new BinaryFileRecord[1]; 
+	for (int i = 2; i < 6 && cont; i++)
+	{
+		infile.read((char*)record, sizeof(BinaryFileRecord));
+		cont = !infile.eof();
+		if(cont)
+		{
+			string strlen = "strlen: "+to_string(record->strLength);
+			const char* val = (const char*)(record->stringBuffer);
+			setCDKMatrixCell(myMatrix, i, 1, strlen.c_str());
+			setCDKMatrixCell(myMatrix, i, 2, val);
+		}
+	}
 	drawCDKMatrix(myMatrix, true);
 
-
-  /* So we can see results, pause until a key is pressed. */
+/* So we can see results, pause until a key is pressed. */
   unsigned char x;
   cin >> x;
 
